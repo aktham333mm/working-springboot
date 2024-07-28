@@ -1,0 +1,22 @@
+stages:
+  - mvn_build
+  - build_push_image
+  - deploy
+  - prepare_argocd
+  - protect_tag
+
+  
+include:
+  - project: 'devops/ci-templates'
+    ref: master # branch or tag
+    file:
+      - .mvn/.mvn_build_template.yaml
+      - .mvn/.build_push_image_template.yaml
+      - .mvn/.dependency_check_template.yaml
+      - .mvn/.deploy_template.yaml
+      - .mvn/.stop_deploy_template.yaml
+      - .mvn/.prepare_argocd_template.yaml
+      - .mvn/.create_argocd_template.yaml
+      - .mvn/.mvn_sast_template.yaml
+      - .common/.protect_tag_template.yaml
+  - local: .gitlab/ci/dev.yml

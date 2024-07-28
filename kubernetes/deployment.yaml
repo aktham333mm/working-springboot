@@ -1,0 +1,40 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: "${APP}"
+  labels:
+    app: "${APP}"
+    poc: tr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "${APP}"
+  template:
+    metadata:
+      labels:
+        app: "${APP}"
+    spec:
+      imagePullSecrets:
+      - name: "gitlab-auth-${NAMESPACE}"
+      containers:
+      - name: "${APP_NAME}"
+        image: "$IMAGE_NAME:$VERSION"
+        ports:
+          - containerPort: 8080
+        env:
+        - name: name
+          valueFrom:
+            secretKeyRef:
+              name: "${APP_NAME}-credentials"
+              key: NAME
+        - name: pass
+          valueFrom:
+            secretKeyRef:
+              name: "${APP_NAME}-credentials"
+              key: PASS
+        - name: url
+          valueFrom:
+            secretKeyRef:
+              name: "${APP_NAME}-credentials"
+              key: URL

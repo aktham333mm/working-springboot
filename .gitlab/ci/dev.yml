@@ -1,0 +1,94 @@
+stages:
+  - mvn_build
+  - build_push_image
+  - deployx
+  - prepare_argocd
+  - protect_tag
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: ""
+  DOCKER_HOST: tcp://localhost:2375
+  IMAGE_NAME: $CI_REGISTRY_IMAGE
+  APP: spring
+  NAMESPACE: mytest
+
+mvn_build_dev:
+  extends: .mvn_build_template
+  environment:
+    name:  "xyz/development"
+  only:
+    - exact
+  tags:
+    - xyz/development
+
+build_push_image_dev:
+  extends: .build_push_image_template
+  dependencies:
+    - mvn_build_dev
+  environment:
+    name:  "xyz/development"
+  only:
+    - exact
+  tags:
+    - xyz/development
+
+deploy_dev:
+  extends: .deploy_template
+  dependencies:
+    - build_push_image_dev
+  variables:
+    ENVIRONMENT: "dev"
+    APP_PORT: "8080"
+    CPU_LIMIT: "0"
+    CPU_REQUEST: "0"
+    READINESS_INITIAL_DELAY_SECONDS: "30"
+    LIVENESS_INITIAL_DELAY_SECONDS: "45"
+  environment:
+    name: xyz/development
+    on_stop: stop_deploy_dev
+  only:
+    - exact
+  tags:
+    - xyz/development
+
+prepare_argocd_preprod:
+  extends: .prepare_argocd_template
+  dependencies:
+    - deploy_dev
+  variables:
+    ENVIRONMENT: "dev"
+    APP_PORT: "8080"
+    READINESS_INITIAL_DELAY_SECONDS: "120"
+    LIVENESS_INITIAL_DELAY_SECONDS: "135"
+    ELK_URL: "http://172.20.36.84:8200"
+    NUM_REPLICAS: "3"
+    MAXREPLICAS: "9"
+    MINREPLICAS: "3"
+    SERVICE_NAME: spring-prod
+    ELK_OPTION: "-javaagent:/usr/local/lib/elastic-apm-agent-1.29.0.jar -Delastic.apm.service_name=${SERVICE_NAME}  -Delastic.apm.server_url=${ELK_URL} -Delastic.apm.secret_token= -Delastic.apm.application_packages=com.orange"
+  environment:
+    name: preprod
+  only:
+    - exact
+  tags:
+    - xyz/development
+
+protect_tag:
+  extends: .protect_tag_template
+  environment:
+    name:  prod
+  only:
+    - exact
+  tags:
+    - xyz/development
+
+
+stop_deploy_dev:
+  extends: .stop_deploy_template
+  environment:
+    name: xyz/development
+  only:
+    - exact
+  tags:
+    - xyz/development
