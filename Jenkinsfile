@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment{
-        git-cred= credentials('github-cred')
+       git_cred = credentials('github-cred')
     }
     stages {
         stage("build") {
@@ -12,7 +12,7 @@ pipeline {
         stage("deploy") {
             steps {
                 echo "this is the deploy stage"
-                echo "the github cred is ${git-cred}"
+                echo "the github cred is ${git_cred}"
             }
         }
         stage("deploy dev") {
