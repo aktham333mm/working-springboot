@@ -11,11 +11,10 @@ pipeline {
                 echo "this is the deploy stage"
             }
         }
-        stage("deploy dev") {
-            when{
-                expression{
-                    BRANCH_NAME == 'dev'  // BRANCH_NAME this is env fro jenkins
-                    //to view all env by jenkins http://172.20.35.36:8080/env-vars.html/
+        stage("deploy") {
+            when {
+                expression {
+                    BRANCH_NAME == 'dev' // BRANCH_NAME is an environment variable in Jenkins
                 }
             }
             steps {
@@ -23,22 +22,15 @@ pipeline {
             }
         }
     }
-    post{ //this will run after all stages are done
-        always{ //always meant that it will always be executed whether it fail or succeed
-          steps{
+    post { // This will run after all stages are completed
+        always { // Executes regardless of success or failure
             echo "POST always expression"
-          }
-        success{
-            steps{
-                echo "POST succeeded"
-            }
         }
-        failure{
-            steps{
-                echo "POST failure"
-            }
+        success { // Executes only if the pipeline succeeds
+            echo "POST succeeded"
         }
+        failure { // Executes only if the pipeline fails
+            echo "POST failure"
         }
-
     }
 }
