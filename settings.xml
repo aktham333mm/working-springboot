@@ -6,7 +6,7 @@
             <protocol>http</protocol>
             <username>vpnproxy</username>
             <password>Orange2468</password>
-            <host>10.1.166.97</host>
+            <host>10.1.166.202</host>
             <port>8080</port>
             <nonProxyHosts>local.net|some.host.com</nonProxyHosts>
         </proxy>
