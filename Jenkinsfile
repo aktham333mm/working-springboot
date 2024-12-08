@@ -11,7 +11,7 @@ pipeline {
                 echo "this is the deploy stage"
             }
         }
-        stage("deploy") {
+        stage("deploy dev") {
             when{
                 expression{
                     BRANCH_NAME == 'dev'  // BRANCH_NAME this is env fro jenkins
