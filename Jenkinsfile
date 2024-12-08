@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage("build") {
             steps {
-                echo "this is the deploy stage"
+                sh "mvn -s settings.xml clean package -Dmaven.test.skip"
             }
         }
         stage("deploy") {
