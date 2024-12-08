@@ -15,7 +15,7 @@ pipeline {
                 echo "the github cred is ${git-cred}"
             }
         }
-        stage("deploy" dev) {
+        stage("deploy dev") {
             when {
                 expression {
                     BRANCH_NAME == 'dev' // BRANCH_NAME is an environment variable in Jenkins
