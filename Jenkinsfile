@@ -14,7 +14,7 @@ pipeline {
         }
         stage("copy jar file to downlaods") {
             steps {
-                bat "xcopy target\*.jar Downloads"
+                bat "xcopy target\\*.jar Downloads"
                 echo "the github cred is ${git_cred}"
             }
         }
