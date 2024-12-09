@@ -14,7 +14,7 @@ pipeline {
         }
         stage("copy jar file to downlaods") {
             steps {
-                bat "copy C:\ProgramData\Jenkins\.jenkins\workspace\workin-springboot_main\target\*.jar C:\test101"
+                bat "copy C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\workin-springboot_main\\target\\*.jar C:\\test101"
                 echo "the github cred is ${git_cred}"
             }
         }
