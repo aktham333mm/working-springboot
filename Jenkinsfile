@@ -4,7 +4,7 @@ pipeline {
         git_cred = credentials('github-cred') // will extract the cred from jenkins using Credentials Binding plugin
     }
     tools{
-        maven 'Maven'
+        maven 'Maven' //this will install maven so u can run mvn cmd even if itsnot installed on the machine
     }
     stages {
         stage("build") {
@@ -12,9 +12,9 @@ pipeline {
                 bat "mvn clean package -Dmaven.test.skip"
             }
         }
-        stage("deploy") {
+        stage("copy jar file to downlaods") {
             steps {
-                echo "this is the deploy stage"
+                bat "xcopy target\*.jar Downloads"
                 echo "the github cred is ${git_cred}"
             }
         }
