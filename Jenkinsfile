@@ -1,7 +1,10 @@
 pipeline {
     agent any
     environment{
-       git_cred = credentials('github-cred')
+        git_cred = credentials('github-cred') // will extract the cred from jenkins using Credentials Binding plugin
+    }
+    tools{
+        maven 'Maven'
     }
     stages {
         stage("build") {
