@@ -5,7 +5,9 @@ pipeline{
     stages{
         stage("test"){
             steps{
-                echo "hello world"
+                container("jenkins-slave-bb"){
+                    echo "hello world"
+                }
             }
         }
         stage("build-app"){
