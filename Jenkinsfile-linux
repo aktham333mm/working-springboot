@@ -1,1 +1,17 @@
-
+pipeline{
+    agent{
+        label 'kube-jenkins'
+    }
+    stages{
+        stage("build-app"){
+            steps{
+                sh "mvn clean package -Dmaven.test.skip"
+            }
+        }
+        stage("deploy to k8s"){
+            steps{
+                echo "hello world"
+            }
+        }
+    }
+}
