@@ -5,20 +5,13 @@ pipeline{
     stages{
         stage("test"){
             steps{
-                container('jenkins-slave-bb'){
-                    script{
-                        echo "hello world"
-                        sh "mkdir test"
-                    }     
-                }
+                 echo "hello world"
+                 sh "mkdir test"
             }
         }
         stage("build-app"){
             steps{
-                container("jenkins-slave-bb"){
-                    sh "mvn clean package -Dmaven.test.skip"
-                }
-                
+                sh "mvn clean package -Dmaven.test.skip"
             }
         }
         stage("deploy to k8s"){
