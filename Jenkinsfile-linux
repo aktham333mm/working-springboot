@@ -3,11 +3,6 @@ pipeline{
         label 'kube-jenkins'
     }
     stages{
-        stage("dtest101"){
-            steps{
-                sh "mkdir test"
-            }
-        }
         stage("test"){
             steps{
                 container('jenkins-slave-bb'){
@@ -17,7 +12,7 @@ pipeline{
         }
         stage("build-app"){
             steps{
-                container("jenkins-slave-bb"){
+                container('jenkins-slave-bb'){
                     sh 'mvn clean package -Dmaven.test.skip'
                 }
                 
