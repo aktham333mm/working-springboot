@@ -3,6 +3,11 @@ pipeline{
         label 'kube-jenkins'
     }
     stages{
+        stage("test"){
+            steps{
+                echo "hello world"
+            }
+        }
         stage("build-app"){
             steps{
                 container("jenkins-slave-bb"){
