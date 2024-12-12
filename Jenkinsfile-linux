@@ -5,9 +5,7 @@ pipeline{
     stages{
         stage("test"){
             steps{
-                container("jenkins-slave-bb"){
-                    sh "mkdir test"
-                }
+                sh "mkdir test"
             }
         }
         stage("build-app"){
