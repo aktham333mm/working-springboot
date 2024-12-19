@@ -22,7 +22,7 @@ pipeline{
         stage("test app"){
             steps{
                 script{
-                    var1.test()
+                    var1.copyfile()
                 }
             }
         }
