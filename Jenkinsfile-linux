@@ -2,10 +2,13 @@ pipeline{
     agent{
         label 'kube-jenkins'
     }
+    tools{
+        maven "Maven"
+    }
     stages{
         stage("test"){
             steps{
-                sh "mkdir test"
+                sh "mkdir jenkins-test"
             }
         }
         stage("build-app"){
