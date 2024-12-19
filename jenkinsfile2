@@ -1,0 +1,30 @@
+def var1 //global variable 
+pipeline{
+    agent any
+    tools{
+        maven "Maven"
+    }
+    stages{
+        stage("load script.groovy"){
+            steps{
+                script{
+                    var1 = load "script.groovy"
+                }
+            }
+        }
+        stage ("build app"){
+            steps{
+                script{
+                    var1.build()
+                }
+            }
+        }
+        stage("test app"){
+            steps{
+                script{
+                    var1.test()
+                }
+            }
+        }
+    }
+}
